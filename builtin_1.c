@@ -68,7 +68,7 @@ static  void cd_help(char *env_str, char *oldpwd, char *cwd)
 		write(2, env_str, ft_strlen(env_str));
 		write(2, " not set\n", 9);
 		g_last_exit_status = 1;
-		return;
+		return ;
 	}
     chdir(get_env);
     if (getcwd(cwd, sizeof(cwd)) == NULL)
@@ -108,4 +108,3 @@ void    builtin_cd(t_command *cmd)
         }
     }
 }
-

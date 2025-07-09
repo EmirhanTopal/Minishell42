@@ -42,7 +42,7 @@ int	ft_is_builtin(char *cmd)
             !ft_strcmp(cmd, "unset"));
 }
 
-void	execute_builtin_command(t_command *cmd)
+void	execute_builtin_command(t_command *cmd, t_shell *shell)
 {
 	if (!ft_strcmp(cmd->argv[0], "echo"))
 		builtin_echo(cmd->argv);
@@ -52,11 +52,11 @@ void	execute_builtin_command(t_command *cmd)
         builtin_exit(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "cd"))
 		builtin_cd(cmd);
-	// else if (!strcmp(cmd->argv[0], "env"))
-	// 	builtin_env(cmd->argv);
-	// else if (!strcmp(cmd->argv[0], "export"))
+	else if (!ft_strcmp(cmd->argv[0], "env"))
+		builtin_env(cmd, shell);
+	// else if (!ft_strcmp(cmd->argv[0], "export"))
 	// 	builtin_export(cmd->argv);
-	// else if (!strcmp(cmd->argv[0], "unset"))
+	// else if (!ft_strcmp(cmd->argv[0], "unset"))
 	// 	builtin_unset(cmd->argv);
 }
 
