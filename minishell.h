@@ -49,6 +49,7 @@ void    builtin_pwd();
 void    builtin_exit(t_command *cmd);
 void    builtin_cd(t_command *cmd);
 void    builtin_env(t_command *cmd, t_shell *shell);
+void    builtin_export(t_command *cmd, t_shell *shell);
 t_env	*init_env(char **envp);
 void	add_env_node_back(t_env **head, t_env *node);
 void	free_env(t_env *env);

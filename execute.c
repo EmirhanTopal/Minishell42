@@ -54,8 +54,8 @@ void	execute_builtin_command(t_command *cmd, t_shell *shell)
 		builtin_cd(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "env"))
 		builtin_env(cmd, shell);
-	// else if (!ft_strcmp(cmd->argv[0], "export"))
-	// 	builtin_export(cmd->argv);
+	else if (!ft_strcmp(cmd->argv[0], "export"))
+		builtin_export(cmd, shell);
 	// else if (!ft_strcmp(cmd->argv[0], "unset"))
 	// 	builtin_unset(cmd->argv);
 }
