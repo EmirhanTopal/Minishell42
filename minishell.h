@@ -63,6 +63,8 @@ void	export_add_env(t_shell *shell, char *arg_value, char *arg_key);
 void	export_eql_ptr_ctrl(t_command *cmd, int *key_len, int i, char **arg_value);
 void    builtin_export(t_command *cmd, t_shell *shell);
 
+void    builtin_unset(t_command *cmd, t_shell *shell);
+
 int     is_numeric(char *str);
 int     ft_atoi(char *str);
 char	*ft_strchr(const char *s, int c);

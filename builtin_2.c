@@ -44,7 +44,39 @@ void    builtin_export(t_command *cmd, t_shell *shell)
 	}
 	print_env_export(shell->shell_env);
 }
-// void    builtin_unset(t_command *cmd)
-// {
 
-// }
+void	unset_key_free(t_env *tmp_env)
+{
+	free(tmp_env->key);
+	if (tmp_env->value != NULL)
+		free(tmp_env->value);
+	free(tmp_env);
+}
+
+void    builtin_unset(t_command *cmd, t_shell *shell)
+{
+	t_env	*tmp_env;
+	t_env	*node = NULL;
+	int		i;
+
+	i = 1;
+	tmp_env = shell->shell_env;
+	while (cmd->argv[i])
+	{
+		while (tmp_env)
+		{
+			if (!ft_strcmp(cmd->argv[i], tmp_env->key))
+			{
+				if (node == NULL) // first node - head
+					shell->shell_env = tmp_env->next;
+				else
+					node->next = tmp_env->next;
+				unset_key_free(tmp_env);
+				break;
+			}
+			node = tmp_env;
+			tmp_env = tmp_env->next;
+		}
+		i++;
+	}
+}

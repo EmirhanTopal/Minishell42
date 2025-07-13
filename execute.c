@@ -56,8 +56,8 @@ void	execute_builtin_command(t_command *cmd, t_shell *shell)
 		builtin_env(cmd, shell);
 	else if (!ft_strcmp(cmd->argv[0], "export"))
 		builtin_export(cmd, shell);
-	// else if (!ft_strcmp(cmd->argv[0], "unset"))
-	// 	builtin_unset(cmd->argv);
+	else if (!ft_strcmp(cmd->argv[0], "unset"))
+		builtin_unset(cmd, shell);
 }
 
 void	get_signal(pid_t pid)
