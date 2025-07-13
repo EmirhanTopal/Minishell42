@@ -49,7 +49,7 @@ void	execute_builtin_command(t_command *cmd, t_shell *shell)
     else if (!ft_strcmp(cmd->argv[0], "pwd"))
 		builtin_pwd();
 	else if (!ft_strcmp(cmd->argv[0], "exit"))
-        builtin_exit(cmd);
+        builtin_exit(cmd, shell);
 	else if (!ft_strcmp(cmd->argv[0], "cd"))
 		builtin_cd(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "env"))

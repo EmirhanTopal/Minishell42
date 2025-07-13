@@ -44,8 +44,11 @@ void    builtin_echo(char **argv);
 
 void    builtin_pwd();
 
-void    builtin_exit(t_command *cmd);
+void	builtin_exit(t_command *cmd, t_shell *shell);
 
+void	print_cd_err(char *msg);
+void	update_pwd_vars(char *oldpwd);
+void	cd_go_env(char *var);
 void    builtin_cd(t_command *cmd);
 
 t_env	*init_env(char **envp);
@@ -63,6 +66,7 @@ void	export_add_env(t_shell *shell, char *arg_value, char *arg_key);
 void	export_eql_ptr_ctrl(t_command *cmd, int *key_len, int i, char **arg_value);
 void    builtin_export(t_command *cmd, t_shell *shell);
 
+void	unset_key_free(t_env *tmp_env);
 void    builtin_unset(t_command *cmd, t_shell *shell);
 
 int     is_numeric(char *str);

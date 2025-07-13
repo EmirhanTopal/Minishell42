@@ -14,6 +14,8 @@ SRCS = \
 	env_utils_1.c \
 	export_utils_1.c \
 	export_utils_2.c \
+	cd_utils_1.c \
+	unset_utils_1.c \
 
 # Object files
 OBJS = $(SRCS:.c=.o)
