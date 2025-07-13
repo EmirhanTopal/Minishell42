@@ -11,7 +11,7 @@ int main(int argc, char **argv, char **envp)
     if (!cmd1)
         return(1);
 
-    char *end_cmd1[] = {"export" ,NULL};
+    char *end_cmd1[] = {"export", "asdasd", NULL};
     cmd1->argv = end_cmd1;
     cmd1->is_builtin = ft_is_builtin(cmd1->argv[0]);
     cmd1->next = NULL;

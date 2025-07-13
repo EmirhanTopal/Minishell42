@@ -9,8 +9,11 @@ SRCS = \
 	execute.c \
 	minishell_main.c \
 	utils_1.c \
+	utils_2.c \
 	utils_split.c \
-	utils_2.c
+	env_utils_1.c \
+	export_utils_1.c \
+	export_utils_2.c \
 
 # Object files
 OBJS = $(SRCS:.c=.o)
