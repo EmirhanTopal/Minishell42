@@ -30,7 +30,7 @@ typedef struct s_shell
     t_env *shell_env;
 } t_shell;
 
-
+void    execute_pipeline(t_command *cmd, t_shell *shell, char **envp);
 
 void	execute_not_builtin_command(t_command *cmd, char **envp);
 void	execute_builtin_command(t_command *cmd, t_shell *shell);
