@@ -2,12 +2,13 @@
 
 static	void	pipeline_child_process(t_command *tmp, int *fd, int prev_fd)
 {
+	pipeline_in_out_app_hrdc(tmp);
 	if (prev_fd != -1) // örneğin ls grep wc komutları arasında 2. komuttaysak prev_fd = fd[0] olur. 
 	{
 		dup2(prev_fd, STDIN_FILENO);
 		close(prev_fd);
 	}
-	if (tmp->next) // eğer tek komut değilse birden fazla komut varsa
+	if (!tmp->outfile && tmp->next) // eğer tek komut değilse birden fazla komut varsa
 	{
 		close(fd[0]); // pipe okuma ucunu kapat çünkü yazma yapacağım pipe ın read ucu ile işim yok.
 		dup2(fd[1], STDOUT_FILENO); // fd[1] artık stdout un bir kopyası yani bundan sonra stdout a yönlendirilenler fd[1] e yönlendirilecek.
@@ -19,7 +20,7 @@ static	void	pipeline_parent_process(t_command *tmp, int *fd, int *prev_fd)
 {
 	if ((*prev_fd) != -1) // eğer parent da kapatma işlemi yapılmazsa ve bir sonraki komut yok ise. fd[0] açık kalacağı için read bekler, eğer zaten bir sonraki komut var ise tekrardan pref_fd yi güncelleriz.
 		close((*prev_fd));
-	if (tmp->next)
+	if (!tmp->outfile && tmp->next)
 	{
 		(*prev_fd) = fd[0];
 		close(fd[1]);
@@ -51,7 +52,7 @@ void	execute_pipeline(t_command *cmd, t_shell *shell, char **envp)
 	prev_fd = -1;
 	while (tmp)
 	{
-		if (tmp->next)
+		if (!tmp->outfile && tmp->next)
         	pipe(fd);
 		pid = fork();
 		if (pid == 0)
@@ -62,7 +63,6 @@ void	execute_pipeline(t_command *cmd, t_shell *shell, char **envp)
 		}
 		else if (pid < 0)
 			pipeline_error();
-		//parent
 		pipeline_parent_process(tmp, fd, &prev_fd);
 		tmp = tmp->next;
 	}

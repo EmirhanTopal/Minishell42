@@ -1,5 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
+LIBS = -lreadline -lhistory
 
 # Source files
 SRCS = \
@@ -17,6 +18,8 @@ SRCS = \
 	cd_utils_1.c \
 	unset_utils_1.c \
 	pipeline.c \
+	pipeline_utils_1.c \
+	$(LIBS) \
 
 # Object files
 OBJS = $(SRCS:.c=.o)

@@ -17,16 +17,21 @@ void	execute_not_builtin_command(t_command *cmd, char **envp)
 	if (pid == -1)
 	{
 		perror("fork");
+		free(path);
 		exit(1);
 	}
 	else if(pid == 0) // child process
 	{
 		execve(path, cmd->argv, envp);
 		perror("execve");
+		free(path);
 		exit(127);
 	}
 	else
+	{
+		free(path);
 		get_signal(pid);
+	}
 }
 
 int	ft_is_builtin(char *cmd)
