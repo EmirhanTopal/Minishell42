@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 14:30:03 by emtopal           #+#    #+#             */
-/*   Updated: 2025/07/19 14:32:31 by emtopal          ###   ########.fr       */
+/*   Updated: 2025/07/19 20:29:01 by elduran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	void	pipeline_child_process(t_command *tmp, int *fd, int prev_fd)
+static	void	pipeline_child_process(t_parse *tmp, int *fd, int prev_fd)
 {
 	pipeline_in_out_app_hrdc(tmp);
 	if (prev_fd != -1)
@@ -20,7 +20,7 @@ static	void	pipeline_child_process(t_command *tmp, int *fd, int prev_fd)
 		dup2(prev_fd, STDIN_FILENO);
 		close(prev_fd);
 	}
-	if (!tmp->outfile && tmp->next)
+	if ((tmp->outfile != -1) && tmp->next)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
@@ -28,11 +28,11 @@ static	void	pipeline_child_process(t_command *tmp, int *fd, int prev_fd)
 	}
 }
 
-static	void	pipeline_parent_process(t_command *tmp, int *fd, int *prev_fd)
+static	void	pipeline_parent_process(t_parse *tmp, int *fd, int *prev_fd)
 {
 	if ((*prev_fd) != -1)
 		close((*prev_fd));
-	if (!tmp->outfile && tmp->next)
+	if ((tmp->outfile != -1) && tmp->next)
 	{
 		(*prev_fd) = fd[0];
 		close(fd[1]);
@@ -45,7 +45,7 @@ static	void	pipeline_error(void)
 	exit(1);
 }
 
-static	void	pipeline_execute(t_command *tmp, t_shell *shell, char **envp)
+static	void	pipeline_execute(t_parse *tmp, t_shell *shell, char **envp)
 {
 	if (tmp->is_builtin)
 		execute_builtin_command(tmp, shell, envp);
@@ -53,18 +53,19 @@ static	void	pipeline_execute(t_command *tmp, t_shell *shell, char **envp)
 		execute_not_builtin_command(tmp, envp);
 }
 
-void	execute_pipeline(t_command *cmd, t_shell *shell, char **envp)
+void	execute_pipeline(t_parse *cmd, t_shell *shell, char **envp)
 {
 	int			fd[2];
 	pid_t		pid;
 	int			prev_fd;
-	t_command	*tmp;
+	t_parse		*tmp;
+	int			status;
 
 	tmp = cmd;
 	prev_fd = -1;
 	while (tmp)
 	{
-		if (!tmp->outfile && tmp->next)
+		if ((cmd->outfile != -1) && tmp->next)
 			pipe(fd);
 		pid = fork();
 		if (pid == 0)
@@ -78,6 +79,9 @@ void	execute_pipeline(t_command *cmd, t_shell *shell, char **envp)
 		pipeline_parent_process(tmp, fd, &prev_fd);
 		tmp = tmp->next;
 	}
-	while (wait(NULL) > 0)
-		;
+	while (wait(&status) > 0)
+	{
+		if (WIFEXITED(status))
+			g_last_exit_status = WEXITSTATUS(status);	
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:54:23 by emtopal           #+#    #+#             */
-/*   Updated: 2025/07/19 13:55:12 by emtopal          ###   ########.fr       */
+/*   Updated: 2025/07/19 21:26:02 by elduran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,16 @@ int	export_help_2(t_shell *shell, char *arg_key, char *arg_value)
 	return (0);
 }
 
-void	export_without_argument(t_command *cmd, t_shell *shell)
+void	export_without_argument(t_parse *cmd, t_shell *shell)
 {
 	t_env	*sorted;
 
-	if (cmd->argv[1] == NULL)
+	if (cmd->args[1] == NULL)
 	{
 		sorted = sort_env_lst(shell->shell_env);
 		print_env_export(sorted);
 		free_env(sorted);
+		g_last_exit_status = 0;
 	}
 }
 
@@ -74,19 +75,22 @@ void	export_add_env(t_shell *shell, char *arg_value, char *arg_key)
 		free(arg_key);
 }
 
-void	exp_eql_ptr_ctrl(t_command *cmd, int *key_len, int i, char **arg_value)
+void	exp_eql_ptr_ctrl(t_parse *cmd, int *key_len, int i, char **arg_value)
 {
 	char	*arg_eql_ptr;
 
-	arg_eql_ptr = ft_strchr(cmd->argv[i], '=');
+	arg_eql_ptr = ft_strchr(cmd->args[i], '=');
 	if (arg_eql_ptr != NULL)
 	{
-		(*key_len) = arg_eql_ptr - cmd->argv[i];
+		(*key_len) = arg_eql_ptr - cmd->args[i];
 		(*arg_value) = ft_strdup(arg_eql_ptr + 1);
 	}
 	else
 	{
 		(*arg_value) = NULL;
-		(*key_len) = ft_strlen(cmd->argv[i]);
+		(*key_len) = ft_strlen(cmd->args[i]);
 	}
 }
+
+
+
