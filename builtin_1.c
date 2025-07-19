@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    builtin_echo(char **argv)
+void    builtin_echo(char **argv, char **envp)
 {
     int i;
 	int ctrl;
@@ -11,7 +11,10 @@ void    builtin_echo(char **argv)
         i++;
     while (argv[i])
     {
-        write(1, argv[i], ft_strlen(argv[i]));
+		if (argv[i][0] == '$')
+			dolar_sign_echo(argv[i], envp);
+        else
+			write(1, argv[i], ft_strlen(argv[i]));
 		if (argv[i + 1])
 			write(1, " ", 1);
         i++;

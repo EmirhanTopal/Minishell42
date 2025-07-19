@@ -36,7 +36,7 @@ static	void	pipeline_error()
 static	void	pipeline_execute(t_command *tmp, t_shell *shell, char **envp)
 {
 	if (tmp->is_builtin)
-		execute_builtin_command(tmp, shell);
+		execute_builtin_command(tmp, shell, envp);
 	else
 		execute_not_builtin_command(tmp, envp);
 }

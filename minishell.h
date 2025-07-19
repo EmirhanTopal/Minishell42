@@ -41,14 +41,16 @@ void    pipeline_heredoc(t_command *cmd);
 void	pipeline_in_out_app_hrdc(t_command *tmp);
 
 void	execute_not_builtin_command(t_command *cmd, char **envp);
-void	execute_builtin_command(t_command *cmd, t_shell *shell);
+void	execute_builtin_command(t_command *cmd, t_shell *shell, char **envp);
 
 void	get_signal(pid_t pid);
 char	*check_path(char **paths, char *cmd);
 char	*find_path(char **env, char **cmd);
 int		ft_is_builtin(char *cmd);
 
-void	builtin_echo(char **argv);
+char	*get_env_value(char **env, char *key);
+void    dolar_sign_echo(char *argv, char **envp);
+void	builtin_echo(char **argv, char **envp);
 
 void	builtin_pwd();
 
@@ -88,3 +90,4 @@ void	ft_db_free(char **double_pointer);
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
+char	*ft_itoa(int n);

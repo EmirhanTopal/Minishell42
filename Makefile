@@ -11,6 +11,7 @@ SRCS = \
 	minishell_main.c \
 	utils_1.c \
 	utils_2.c \
+	utils_3.c \
 	utils_split.c \
 	env_utils_1.c \
 	export_utils_1.c \
@@ -19,7 +20,7 @@ SRCS = \
 	unset_utils_1.c \
 	pipeline.c \
 	pipeline_utils_1.c \
-	$(LIBS) \
+	echo_utils_1.c \
 
 # Object files
 OBJS = $(SRCS:.c=.o)
@@ -34,7 +35,7 @@ NAME = minishell
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
 
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@

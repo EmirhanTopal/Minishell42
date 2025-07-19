@@ -5,8 +5,10 @@ void	execute_not_builtin_command(t_command *cmd, char **envp)
 	pid_t pid;
 	char *path;
 
-	pid = fork();
-	path = find_path(envp, cmd->argv);
+	if (cmd->argv[0][0] == '/')
+		path = ft_strdup(cmd->argv[0]);
+	else
+		path = find_path(envp, cmd->argv);
 	if (path == NULL)
 	{
 		write(2, "minishell: ", 11);
@@ -14,6 +16,7 @@ void	execute_not_builtin_command(t_command *cmd, char **envp)
 		write(2, ": command not found\n", 21);
 		exit(127);
 	}
+	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");
@@ -47,10 +50,10 @@ int	ft_is_builtin(char *cmd)
             !ft_strcmp(cmd, "unset"));
 }
 
-void	execute_builtin_command(t_command *cmd, t_shell *shell)
+void	execute_builtin_command(t_command *cmd, t_shell *shell, char **envp)
 {
 	if (!ft_strcmp(cmd->argv[0], "echo"))
-		builtin_echo(cmd->argv);
+		builtin_echo(cmd->argv, envp);
     else if (!ft_strcmp(cmd->argv[0], "pwd"))
 		builtin_pwd();
 	else if (!ft_strcmp(cmd->argv[0], "exit"))
