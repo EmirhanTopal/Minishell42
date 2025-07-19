@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/19 14:22:58 by emtopal           #+#    #+#             */
+/*   Updated: 2025/07/19 14:23:44 by emtopal          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -56,13 +68,14 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-int ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
-	int i = 0;
+	int	i;
 
-	while((s1[i] == s2[i]) && s1[i] && s2[i])
+	i = 0;
+	while ((s1[i] == s2[i]) && s1[i] && s2[i])
 		i++;
-	return (s1[i]-s2[i]);
+	return (s1[i] - s2[i]);
 }
 
 void	ft_db_free(char **double_pointer)

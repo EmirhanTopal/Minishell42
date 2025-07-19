@@ -1,3 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/19 13:56:13 by emtopal           #+#    #+#             */
+/*   Updated: 2025/07/19 14:58:02 by marvin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MINISHELL_H
+#define MINISHELL_H
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/wait.h>
@@ -7,37 +22,37 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-extern	int	g_last_exit_status;
+extern int	g_last_exit_status;
 
-typedef	struct	s_command 
+typedef struct s_command
 {
-    char	**argv;               // Komut ve argümanlar ["ls", "-l", NULL]
-    char	*infile;              // "< input.txt" varsa burada tutulur
-    char	*outfile;             // "> output.txt" veya ">> append.txt"
-    int		append;              // >> varsa 1, > varsa 0
-    int		fd_in;
-    int		fd_out;
-    char	*heredoc_delim;       // << varsa burada delimiter saklanır
-    int		is_builtin;              // Built-in komut mu? (1 = evet, 0 = hayır)
-    struct s_command *next;    // Pipe varsa sonraki komutu gösterir
-} t_command;
+	char				**argv;
+	char				*infile;
+	char				*outfile;
+	int					append;
+	int					fd_in;
+	int					fd_out;
+	char				*heredoc_delim;
+	int					is_builtin;
+	struct s_command	*next;
+}	t_command;
 
 typedef struct s_env
 {
-    char	*key;
-    char	*value;
-    struct s_env *next;
-} t_env;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 typedef struct s_shell
 {
-    t_env	*shell_env;
-} t_shell;
+	t_env	*shell_env;
+}	t_shell;
 
 void	execute_pipeline(t_command *cmd, t_shell *shell, char **envp);
 void	pipeline_infile(t_command *tmp);
 void	pipeline_out_app(t_command *tmp);
-void    pipeline_heredoc(t_command *cmd);
+void	pipeline_heredoc(t_command *cmd);
 void	pipeline_in_out_app_hrdc(t_command *tmp);
 
 void	execute_not_builtin_command(t_command *cmd, char **envp);
@@ -49,10 +64,10 @@ char	*find_path(char **env, char **cmd);
 int		ft_is_builtin(char *cmd);
 
 char	*get_env_value(char **env, char *key);
-void    dolar_sign_echo(char *argv, char **envp);
+void	dolar_sign_echo(char *argv, char **envp);
 void	builtin_echo(char **argv, char **envp);
 
-void	builtin_pwd();
+void	builtin_pwd(void);
 
 void	builtin_exit(t_command *cmd, t_shell *shell);
 
@@ -73,7 +88,7 @@ void	export_help(t_env *new_copy_env);
 int		export_help_2(t_shell *shell, char *arg_key, char *arg_value);
 void	export_without_argument(t_command *cmd, t_shell *shell);
 void	export_add_env(t_shell *shell, char *arg_value, char *arg_key);
-void	export_eql_ptr_ctrl(t_command *cmd, int *key_len, int i, char **arg_value);
+void	exp_eql_ptr_ctrl(t_command *cmd, int *key_len, int i, char **arg_value);
 void	builtin_export(t_command *cmd, t_shell *shell);
 
 void	unset_key_free(t_env *tmp_env);
@@ -91,3 +106,5 @@ char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 char	*ft_itoa(int n);
+
+#endif

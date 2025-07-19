@@ -21,6 +21,7 @@ SRCS = \
 	pipeline.c \
 	pipeline_utils_1.c \
 	echo_utils_1.c \
+	signals_1.c \
 
 # Object files
 OBJS = $(SRCS:.c=.o)

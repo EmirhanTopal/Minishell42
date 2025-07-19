@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset_utils_1.c                                    :+:      :+:    :+:   */
+/*   signals_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/19 14:22:51 by emtopal           #+#    #+#             */
-/*   Updated: 2025/07/19 14:22:54 by emtopal          ###   ########.fr       */
+/*   Created: 2025/07/19 13:52:51 by emtopal           #+#    #+#             */
+/*   Updated: 2025/07/19 14:33:07 by emtopal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	unset_key_free(t_env *tmp_env)
+void	get_signal(pid_t pid)
 {
-	free(tmp_env->key);
-	if (tmp_env->value != NULL)
-		free(tmp_env->value);
-	free(tmp_env);
+	int	status;
+
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		g_last_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		g_last_exit_status = 128 + WTERMSIG(status);
+	else
+		g_last_exit_status = 1;
 }

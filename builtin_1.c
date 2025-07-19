@@ -1,30 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_1.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/19 13:35:27 by emtopal           #+#    #+#             */
+/*   Updated: 2025/07/19 14:29:04 by emtopal          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void    builtin_echo(char **argv, char **envp)
+void	builtin_echo(char **argv, char **envp)
 {
-    int i;
-	int ctrl;
-    
-    i = 1;
+	int	i;
+	int	ctrl;
+
+	i = 1;
 	ctrl = ft_strcmp(argv[i], "-n");
-    if (argv[i] && !ctrl)
-        i++;
-    while (argv[i])
-    {
+	if (argv[i] && !ctrl)
+		i++;
+	while (argv[i])
+	{
 		if (argv[i][0] == '$')
 			dolar_sign_echo(argv[i], envp);
-        else
+		else
 			write(1, argv[i], ft_strlen(argv[i]));
 		if (argv[i + 1])
 			write(1, " ", 1);
-        i++;
-    }
-    if (ctrl)
-        write(1, "\n", 1);
+		i++;
+	}
+	if (ctrl)
+		write(1, "\n", 1);
 }
-void    builtin_pwd()
+
+void	builtin_pwd(void)
 {
-	char buf[PATH_MAX];
+	char	buf[PATH_MAX];
 
 	if (getcwd(buf, PATH_MAX) == NULL)
 	{
@@ -33,6 +46,7 @@ void    builtin_pwd()
 	write(1, buf, ft_strlen(buf));
 	write(1, "\n", 1);
 }
+
 void	builtin_exit(t_command *cmd, t_shell *shell)
 {
 	int	exit_status;

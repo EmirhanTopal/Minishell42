@@ -1,10 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils_1.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/19 13:53:42 by emtopal           #+#    #+#             */
+/*   Updated: 2025/07/19 13:54:19 by emtopal          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_env	*copy_env_lst(t_env *orj_env)
 {
-	t_env *copy = NULL;
-	t_env *node;
+	t_env	*copy;
+	t_env	*node;
 
+	copy = NULL;
 	while (orj_env)
 	{
 		node = malloc(sizeof(t_env));

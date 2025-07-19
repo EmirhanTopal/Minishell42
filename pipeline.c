@@ -1,24 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipeline.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/19 14:30:03 by emtopal           #+#    #+#             */
+/*   Updated: 2025/07/19 14:32:31 by emtopal          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static	void	pipeline_child_process(t_command *tmp, int *fd, int prev_fd)
 {
 	pipeline_in_out_app_hrdc(tmp);
-	if (prev_fd != -1) // örneğin ls grep wc komutları arasında 2. komuttaysak prev_fd = fd[0] olur. 
+	if (prev_fd != -1)
 	{
 		dup2(prev_fd, STDIN_FILENO);
 		close(prev_fd);
 	}
-	if (!tmp->outfile && tmp->next) // eğer tek komut değilse birden fazla komut varsa
+	if (!tmp->outfile && tmp->next)
 	{
-		close(fd[0]); // pipe okuma ucunu kapat çünkü yazma yapacağım pipe ın read ucu ile işim yok.
-		dup2(fd[1], STDOUT_FILENO); // fd[1] artık stdout un bir kopyası yani bundan sonra stdout a yönlendirilenler fd[1] e yönlendirilecek.
-		close(fd[1]); // pipe yazma ucunu kapat
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
 	}
 }
 
 static	void	pipeline_parent_process(t_command *tmp, int *fd, int *prev_fd)
 {
-	if ((*prev_fd) != -1) // eğer parent da kapatma işlemi yapılmazsa ve bir sonraki komut yok ise. fd[0] açık kalacağı için read bekler, eğer zaten bir sonraki komut var ise tekrardan pref_fd yi güncelleriz.
+	if ((*prev_fd) != -1)
 		close((*prev_fd));
 	if (!tmp->outfile && tmp->next)
 	{
@@ -27,7 +39,7 @@ static	void	pipeline_parent_process(t_command *tmp, int *fd, int *prev_fd)
 	}
 }
 
-static	void	pipeline_error()
+static	void	pipeline_error(void)
 {
 	perror("fork");
 	exit(1);
@@ -43,17 +55,17 @@ static	void	pipeline_execute(t_command *tmp, t_shell *shell, char **envp)
 
 void	execute_pipeline(t_command *cmd, t_shell *shell, char **envp)
 {
-    int			fd[2];
-    pid_t		pid;
+	int			fd[2];
+	pid_t		pid;
 	int			prev_fd;
-    t_command	*tmp;
+	t_command	*tmp;
 
 	tmp = cmd;
 	prev_fd = -1;
 	while (tmp)
 	{
 		if (!tmp->outfile && tmp->next)
-        	pipe(fd);
+			pipe(fd);
 		pid = fork();
 		if (pid == 0)
 		{
@@ -66,5 +78,6 @@ void	execute_pipeline(t_command *cmd, t_shell *shell, char **envp)
 		pipeline_parent_process(tmp, fd, &prev_fd);
 		tmp = tmp->next;
 	}
-	while (wait(NULL) > 0); // wait() çağrısı, bir child process bitince onun PID’sini döner. Eğer bekleyecek child kalmadıysa -1 döner.
+	while (wait(NULL) > 0)
+		;
 }

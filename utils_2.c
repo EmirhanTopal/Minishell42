@@ -1,36 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/19 14:23:56 by emtopal           #+#    #+#             */
+/*   Updated: 2025/07/19 14:30:39 by emtopal          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int is_numeric(char *str)
+int	is_numeric(char *str)
 {
-    int i = 0;
+	int	i;
 
-    if (!str || !str[0])
-        return 0;
-
-    // Opsiyonel: negatif sayılara izin ver
-    if (str[0] == '-' || str[0] == '+')
-        i++;
-
-    while (str[i])
-    {
-        if (str[i] < '0' || str[i] > '9')
-            return 0;
-        i++;
-    }
-    return 1;
+	i = 0;
+	if (!str || !str[0])
+		return (0);
+	if (str[0] == '-' || str[0] == '+')
+		i++;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 int	ft_atoi(char *str)
 {
 	int		i;
-    int		sign;
-    int		result;
-    
+	int		sign;
+	int		result;
+
 	i = 0;
 	sign = 1;
 	result = 0;
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-        i++;
+		i++;
 	while (str[i] == '+' || str[i] == '-')
 	{
 		if (str[i] == '-')
@@ -87,20 +97,20 @@ char	*ft_strdup(const char *s1)
 	return (p2);
 }
 
-char *ft_strndup(const char *s, size_t n)
+char	*ft_strndup(const char *s, size_t n)
 {
-    char *dup;
-    size_t i;
+	char	*dup;
+	size_t	i;
 
-    dup = malloc(n + 1);
-    if (!dup)
-        return (NULL);
-    i = 0;
-    while (i < n && s[i])
-    {
-        dup[i] = s[i];
-        i++;
-    }
-    dup[i] = '\0';
-    return (dup);
+	dup = malloc(n + 1);
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (i < n && s[i])
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
 }

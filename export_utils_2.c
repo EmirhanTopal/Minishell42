@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils_2.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/19 13:54:23 by emtopal           #+#    #+#             */
+/*   Updated: 2025/07/19 13:55:12 by emtopal          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	export_help(t_env *new_copy_env)
@@ -36,9 +48,11 @@ int	export_help_2(t_shell *shell, char *arg_key, char *arg_value)
 
 void	export_without_argument(t_command *cmd, t_shell *shell)
 {
+	t_env	*sorted;
+
 	if (cmd->argv[1] == NULL)
 	{
-		t_env *sorted = sort_env_lst(shell->shell_env);
+		sorted = sort_env_lst(shell->shell_env);
 		print_env_export(sorted);
 		free_env(sorted);
 	}
@@ -60,7 +74,7 @@ void	export_add_env(t_shell *shell, char *arg_value, char *arg_key)
 		free(arg_key);
 }
 
-void	export_eql_ptr_ctrl(t_command *cmd, int *key_len, int i, char **arg_value)
+void	exp_eql_ptr_ctrl(t_command *cmd, int *key_len, int i, char **arg_value)
 {
 	char	*arg_eql_ptr;
 
