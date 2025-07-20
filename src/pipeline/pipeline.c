@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 14:30:03 by emtopal           #+#    #+#             */
-/*   Updated: 2025/07/19 20:29:01 by elduran          ###   ########.fr       */
+/*   Updated: 2025/07/19 22:54:56 by emtopal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	execute_pipeline(t_parse *cmd, t_shell *shell, char **envp)
 	prev_fd = -1;
 	while (tmp)
 	{
-		if ((cmd->outfile != -1) && tmp->next)
+		if (tmp->next)
 			pipe(fd);
 		pid = fork();
 		if (pid == 0)
@@ -76,7 +76,8 @@ void	execute_pipeline(t_parse *cmd, t_shell *shell, char **envp)
 		}
 		else if (pid < 0)
 			pipeline_error();
-		pipeline_parent_process(tmp, fd, &prev_fd);
+        else
+		    pipeline_parent_process(tmp, fd, &prev_fd);
 		tmp = tmp->next;
 	}
 	while (wait(&status) > 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:41:43 by emtopal           #+#    #+#             */
-/*   Updated: 2025/07/19 20:55:26 by elduran          ###   ########.fr       */
+/*   Updated: 2025/07/19 22:54:16 by emtopal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ void	execute_not_builtin_command(t_parse *cmd, char **envp)
         path = find_path(envp, cmd->args);
     if (path == NULL)
         exc_null_path(cmd);
-    
     execve(path, cmd->args, envp);
-    perror("execve");
     exit(1);
 }
 
