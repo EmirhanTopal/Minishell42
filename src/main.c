@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:38:16 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/19 22:37:45 by emtopal          ###   ########.fr       */
+/*   Updated: 2025/07/20 17:45:07 by elduran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	shell = malloc(sizeof(t_shell));
-    shell->shell_env = init_env(envp);
+	shell->shell_env = init_env(envp);
 	while (1)
 	{
 		input = readline("minishell$ ");

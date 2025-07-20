@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:41:43 by emtopal           #+#    #+#             */
-/*   Updated: 2025/07/19 22:54:16 by emtopal          ###   ########.fr       */
+/*   Updated: 2025/07/20 17:50:53 by elduran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,21 @@ static	void	exc_null_path(t_parse *cmd)
 
 void	execute_not_builtin_command(t_parse *cmd, char **envp)
 {
-	char *path;
+	char	*path;
 
-    if (cmd->infile == -1 || cmd->outfile == -1)
+	if (cmd->infile == -1 || cmd->outfile == -1)
 	{
 		g_last_exit_status = 1;
-		return ;
+		exit(g_last_exit_status);
 	}
-    if (cmd->args[0][0] == '/')
-        path = ft_strdup(cmd->args[0]);
-    else
-        path = find_path(envp, cmd->args);
-    if (path == NULL)
-        exc_null_path(cmd);
-    execve(path, cmd->args, envp);
-    exit(1);
+	if (cmd->args[0][0] == '/')
+		path = ft_strdup(cmd->args[0]);
+	else
+		path = find_path(envp, cmd->args);
+	if (path == NULL)
+		exc_null_path(cmd);
+	execve(path, cmd->args, envp);
 }
-
 
 void	execute_builtin_command(t_parse *cmd, t_shell *shell, char **envp)
 {

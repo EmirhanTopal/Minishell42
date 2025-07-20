@@ -6,17 +6,18 @@
 /*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:23:51 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/19 20:14:12 by elduran          ###   ########.fr       */
+/*   Updated: 2025/07/20 17:53:42 by elduran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_token	*ft_create_quoted_token(char quote_char, char *value)
+#include "minishell.h"
+
+static int	ft_isspace(char c)
 {
-	if (quote_char == '\'')
-		return (ft_create_token(WORD, value, QUOTE_SINGLE));
-	return (ft_create_token(WORD, value, QUOTE_DOUBLE));
+	return (c == ' ' || c == '\t' || c == '\n'
+		|| c == '\v' || c == '\f' || c == '\r');
 }
 
 int	ft_handle_quote(char *line, int *i, t_token **tokens)
@@ -25,27 +26,34 @@ int	ft_handle_quote(char *line, int *i, t_token **tokens)
 	int		start;
 	char	*value;
 	t_token	*new;
+	t_quote	quote_type;
 
 	quote_char = line[*i];
 	(*i)++;
 	start = *i;
 	while (line[*i] && line[*i] != quote_char)
 		(*i)++;
-	value = ft_substr(line, start, *i - start);
+	if (line[*i])
+		(*i)++;
+	if (line[*i] && !ft_isspace(line[*i])
+		&& line[*i] != '|' && line[*i] != '<' && line[*i] != '>')
+	{
+		while (line[*i] && !ft_isspace(line[*i])
+			&& line[*i] != '|' && line[*i] != '<' && line[*i] != '>')
+			(*i)++;
+	}
+	value = ft_substr(line, start, *i - start - 1);
 	if (!value)
 		return (0);
-	new = ft_create_quoted_token(quote_char, value);
+	if (quote_char == '\'')
+		quote_type = QUOTE_SINGLE;
+	else
+		quote_type = QUOTE_DOUBLE;
+	new = ft_create_token(WORD, value, quote_type);
 	if (!new)
 		return (free(value), 0);
 	ft_add_token(tokens, new);
-	if (line[*i])
-		(*i)++;
 	return (1);
-}
-
-static int	ft_isspace(char c)
-{
-	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
 char	*ft_handle_word(char *input, int *i)
@@ -56,7 +64,8 @@ char	*ft_handle_word(char *input, int *i)
 	char	quote;
 
 	full = ft_calloc(1, 1);
-	while (input[*i] && !ft_isspace(input[*i]) && input[*i] != '|' && input[*i] != '<' && input[*i] != '>')
+	while (input[*i] && !ft_isspace(input[*i])
+		&& input[*i] != '|' && input[*i] != '<' && input[*i] != '>')
 	{
 		piece = NULL;
 		if (input[*i] == '\'' || input[*i] == '"')
@@ -73,7 +82,9 @@ char	*ft_handle_word(char *input, int *i)
 		else
 		{
 			start = *i;
-			while (input[*i] && !ft_isspace(input[*i]) && input[*i] != '\'' && input[*i] != '"' && input[*i] != '|' && input[*i] != '<' && input[*i] != '>')
+			while (input[*i] && !ft_isspace(input[*i])
+				&& input[*i] != '\'' && input[*i] != '"'
+				&& input[*i] != '|' && input[*i] != '<' && input[*i] != '>')
 				(*i)++;
 			piece = ft_substr(input, start, *i - start);
 		}

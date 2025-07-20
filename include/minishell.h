@@ -6,7 +6,7 @@
 /*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:18:47 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/19 21:26:20 by elduran          ###   ########.fr       */
+/*   Updated: 2025/07/20 17:56:07 by elduran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_parse
 	int				outfile;
 	int				type;
 	int				is_builtin;
-	char			*heredoc_delim;
 	struct s_parse	*next;
 }	t_parse;
 
@@ -158,6 +157,5 @@ size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strndup(const char *s, size_t n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-
 
 #endif

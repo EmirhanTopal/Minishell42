@@ -6,27 +6,30 @@
 /*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 14:30:03 by emtopal           #+#    #+#             */
-/*   Updated: 2025/07/19 22:54:56 by emtopal          ###   ########.fr       */
+/*   Updated: 2025/07/20 18:27:47 by emtopal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	void	pipeline_child_process(t_parse *tmp, int *fd, int prev_fd)
+static void pipeline_child_process(t_parse *tmp, int *fd, int prev_fd)
 {
-	pipeline_in_out_app_hrdc(tmp);
-	if (prev_fd != -1)
-	{
-		dup2(prev_fd, STDIN_FILENO);
-		close(prev_fd);
-	}
-	if ((tmp->outfile != -1) && tmp->next)
-	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-	}
+    pipeline_infile(tmp);
+    pipeline_out_app(tmp);
+    if (prev_fd != -1 && tmp->infile == STDIN_FILENO)
+    {
+        dup2(prev_fd, STDIN_FILENO);
+        close(prev_fd);
+        g_last_exit_status = 0;
+    }
+    if (tmp->next && tmp->outfile == STDOUT_FILENO)
+    {
+        close(fd[0]);
+        dup2(fd[1], STDOUT_FILENO);
+        close(fd[1]);
+    }
 }
+
 
 static	void	pipeline_parent_process(t_parse *tmp, int *fd, int *prev_fd)
 {

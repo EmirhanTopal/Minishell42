@@ -6,7 +6,7 @@
 /*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:54:23 by emtopal           #+#    #+#             */
-/*   Updated: 2025/07/19 21:26:02 by elduran          ###   ########.fr       */
+/*   Updated: 2025/07/20 17:55:42 by elduran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,3 @@ void	exp_eql_ptr_ctrl(t_parse *cmd, int *key_len, int i, char **arg_value)
 		(*key_len) = ft_strlen(cmd->args[i]);
 	}
 }
-
-
-

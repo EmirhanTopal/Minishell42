@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:30:39 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/19 22:34:59 by emtopal          ###   ########.fr       */
+/*   Updated: 2025/07/20 17:48:07 by elduran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	builtin_exit(t_parse *cmd, t_shell *shell)
 {
 	if (cmd->args[1] && cmd->args[2])
-    {
-        write(2, "exit: too many arguments\n", 26);
-        g_last_exit_status = 1;
-        return ;
-    }
+	{
+		write(2, "exit: too many arguments\n", 26);
+		g_last_exit_status = 1;
+		return ;
+	}
 	else if (cmd->args[1] && !is_numeric(cmd->args[1]))
 	{
 		write(2, "exit: ", 6);

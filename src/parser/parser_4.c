@@ -6,7 +6,7 @@
 /*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:35:33 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/19 16:27:04 by elduran          ###   ########.fr       */
+/*   Updated: 2025/07/20 17:54:00 by elduran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static void	ft_process_redirections(t_parse *node, t_token *tokens)
 {
 	while (tokens && tokens->type != PIPE)
 	{
-		if (tokens->type == LESS || tokens->type == GREAT
-			|| tokens->type == DOUBLE_GREAT || tokens->type == DOUBLE_LESS)
+		if (tokens->type == DOUBLE_LESS || tokens->type == DOUBLE_GREAT
+			|| tokens->type == LESS || tokens->type == GREAT)
 			ft_handle_redirection(node, tokens);
 		tokens = tokens->next;
 	}
