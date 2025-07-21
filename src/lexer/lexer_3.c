@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:34:15 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/19 20:12:36 by elduran          ###   ########.fr       */
+/*   Updated: 2025/07/21 21:43:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ static int	ft_lexer_process_token(char *input, int *i, t_token **head)
 {
 	int		type;
 	char	*value;
+	t_quote	quote_type;
 
-	if (input[*i] == '\'' || input[*i] == '"')
-		return (ft_handle_quote(input, i, head));
 	if (input[*i] == '|' || input[*i] == '<' || input[*i] == '>')
 	{
 		type = ft_handle_operator(input, i);
@@ -28,10 +27,10 @@ static int	ft_lexer_process_token(char *input, int *i, t_token **head)
 		ft_add_token(head, ft_create_token(type, value, QUOTE_NONE));
 		return (1);
 	}
-	value = ft_handle_word(input, i);
+	value = ft_handle_word(input, i, &quote_type);
 	if (!value)
 		return (0);
-	ft_add_token(head, ft_create_token(WORD, value, QUOTE_NONE));
+	ft_add_token(head, ft_create_token(WORD, value, quote_type));
 	return (1);
 }
 

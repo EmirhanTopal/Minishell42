@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:35:27 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/20 18:27:40 by emtopal          ###   ########.fr       */
+/*   Updated: 2025/07/21 23:07:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	ft_redir_infile(t_parse *node, t_token *token)
 	fd = open(token->next->value, O_RDONLY);
 	if (fd == -1)
 	{
-        perror(token->next->value);
+		perror(token->next->value);
+		node->error_printed = 1;
 		node->infile = -1;
-        g_last_exit_status = 0;
-        
+        g_last_exit_status = 1;
 	}
 	else
 	{
@@ -60,7 +60,7 @@ static void	ft_redir_outfile_append(t_parse *node, t_token *token)
     {
         perror(token->next->value);
         node->outfile = -1;
-        g_last_exit_status = 1;
+        g_last_exit_status = 0;
     }
 	else
 	{
@@ -102,6 +102,8 @@ void	ft_handle_redirection(t_parse *node, t_token *token)
 {
 	if (!token || !token->next)
 		return ;
+	if (node->infile == -1 || node->outfile == -1)
+		return ;
 	if (token->type == LESS)
 		ft_redir_infile(node, token);
 	else if (token->type == GREAT)
@@ -111,3 +113,4 @@ void	ft_handle_redirection(t_parse *node, t_token *token)
 	else if (token->type == DOUBLE_LESS && token->next)
 		ft_handle_heredoc(node, token->next->value);
 }
+

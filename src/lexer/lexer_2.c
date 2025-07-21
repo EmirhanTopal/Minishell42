@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:23:51 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/20 17:53:42 by elduran          ###   ########.fr       */
+/*   Updated: 2025/07/21 21:45:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,21 @@ int	ft_handle_quote(char *line, int *i, t_token **tokens)
 	return (1);
 }
 
-char	*ft_handle_word(char *input, int *i)
+char	*ft_handle_word(char *input, int *i, t_quote *out_quote)
 {
 	char	*full;
 	char	*piece;
 	int		start;
 	char	quote;
+	t_quote	current_quote;
 
 	full = ft_calloc(1, 1);
+	*out_quote = QUOTE_NONE;
 	while (input[*i] && !ft_isspace(input[*i])
 		&& input[*i] != '|' && input[*i] != '<' && input[*i] != '>')
 	{
 		piece = NULL;
+		current_quote = QUOTE_NONE;
 		if (input[*i] == '\'' || input[*i] == '"')
 		{
 			quote = input[*i];
@@ -78,6 +81,7 @@ char	*ft_handle_word(char *input, int *i)
 			piece = ft_substr(input, start, *i - start);
 			if (input[*i] == quote)
 				(*i)++;
+			current_quote = (quote == '\'') ? QUOTE_SINGLE : QUOTE_DOUBLE;
 		}
 		else
 		{
@@ -88,8 +92,17 @@ char	*ft_handle_word(char *input, int *i)
 				(*i)++;
 			piece = ft_substr(input, start, *i - start);
 		}
-		full = ft_strjoin_free(full, piece);
+		if (*out_quote == QUOTE_NONE)
+			*out_quote = current_quote;
+		else if (*out_quote == QUOTE_DOUBLE && current_quote == QUOTE_SINGLE)
+			*out_quote = QUOTE_SINGLE;
+		char *tmp = full;
+		full = ft_strjoin(full, piece);
+		free(tmp);
 		free(piece);
 	}
 	return (full);
 }
+
+
+

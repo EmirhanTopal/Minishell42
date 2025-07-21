@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:30:39 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/20 17:48:07 by elduran          ###   ########.fr       */
+/*   Updated: 2025/07/21 22:35:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	builtin_exit(t_parse *cmd, t_shell *shell)
 {
 	if (cmd->args[1] && cmd->args[2])
 	{
-		write(2, "exit: too many arguments\n", 26);
+		write(2, "bash: exit: too many arguments\n", 31);
 		g_last_exit_status = 1;
 		return ;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:18:47 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/20 17:56:07 by elduran          ###   ########.fr       */
+/*   Updated: 2025/07/21 22:02:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_parse
 	int				outfile;
 	int				type;
 	int				is_builtin;
+	int				error_printed;
 	struct s_parse	*next;
 }	t_parse;
 
@@ -120,7 +121,7 @@ char	*ft_operator_value(int type);
 void	ft_add_token(t_token **head, t_token *new);
 t_token	*ft_create_token(int type, char *value, t_quote quote);
 int		ft_handle_quote(char *line, int *i, t_token **tokens);
-char	*ft_handle_word(char *input, int *i);
+char	*ft_handle_word(char *input, int *i, t_quote *out_quote);
 t_token	*ft_lexer(char *input);
 
 // parser

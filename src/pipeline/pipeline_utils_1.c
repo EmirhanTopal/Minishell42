@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 14:12:31 by emtopal           #+#    #+#             */
-/*   Updated: 2025/07/20 18:27:52 by emtopal          ###   ########.fr       */
+/*   Updated: 2025/07/21 22:02:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	pipeline_infile(t_parse *tmp)
         g_last_exit_status = 1;
         exit(g_last_exit_status);
     }
-	if (tmp->infile != STDIN_FILENO)
+	if (tmp->infile != STDIN_FILENO && tmp->infile != -1)
 	{
 		dup2(tmp->infile, STDIN_FILENO);
 		close(tmp->infile);
