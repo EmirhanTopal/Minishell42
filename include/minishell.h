@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:18:47 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/21 22:02:19 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/23 22:21:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <string.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <errno.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>

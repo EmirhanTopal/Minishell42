@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:35:23 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/19 13:35:24 by elduran          ###   ########.fr       */
+/*   Updated: 2025/07/23 23:50:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ char	**ft_collect_args(t_token *tokens)
 		return (NULL);
 	while (tokens && tokens->type != PIPE)
 	{
-		if (tokens->type == WORD && (!prev || (prev->type
+
+		if (tokens->type == WORD && tokens->value[0] != '\0' && (!prev || (prev->type
 					!= LESS && prev->type != GREAT && prev->type
 					!= DOUBLE_LESS && prev->type != DOUBLE_GREAT)))
 			args[i++] = tokens->value;

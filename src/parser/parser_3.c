@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:35:39 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/19 23:07:58 by emtopal          ###   ########.fr       */
+/*   Updated: 2025/07/23 23:50:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,8 @@ static void	ft_append_env_value(char **result, const char *str, int *i)
 	if (!var)
 		return ;
 	val = getenv(var);
-	if (val)
+	if (val != NULL)
 		*result = ft_strjoin_free(*result, val);
-	else
-		*result = ft_strjoin_free(*result, "");
 	free(var);
 }
 
