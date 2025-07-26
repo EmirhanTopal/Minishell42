@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emtopal <emtopal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:52:51 by emtopal           #+#    #+#             */
-/*   Updated: 2025/07/19 14:33:07 by emtopal          ###   ########.fr       */
+/*   Updated: 2025/07/24 23:08:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,3 +24,23 @@ void	get_signal(pid_t pid)
 	else
 		g_last_exit_status = 1;
 }
+
+void	handle_sigint(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+void sigquit_handler(int sig)
+{
+    (void)sig;
+    write(1, "Quit: 3\n", 8);
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
+    signal(SIGQUIT, SIG_DFL);
+    raise(SIGQUIT);
+}
+

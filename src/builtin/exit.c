@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:30:39 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/21 22:35:13 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:34:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	builtin_exit(t_parse *cmd, t_shell *shell)
 	{
 		write(2, "bash: exit: too many arguments\n", 31);
 		g_last_exit_status = 1;
-		return ;
+		exit(g_last_exit_status);
 	}
 	else if (cmd->args[1] && !is_numeric(cmd->args[1]))
 	{
@@ -36,5 +36,5 @@ void	builtin_exit(t_parse *cmd, t_shell *shell)
 	free_env(shell->shell_env);
 	free(cmd);
 	free(shell);
-	exit((unsigned char)g_last_exit_status);
+	exit(g_last_exit_status);
 }

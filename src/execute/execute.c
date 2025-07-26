@@ -36,7 +36,7 @@ void	execute_not_builtin_command(t_parse *cmd, char **envp)
 	if (!path)
 		exc_null_path(cmd);
 	if (!cmd->args[0] || cmd->args[0][0] == '\0')
-		exit(0);
+		exit(127);
 	if (access(path, F_OK) == -1)
 	{
 		write(2, "bash: ", 6);
@@ -62,17 +62,17 @@ void	execute_not_builtin_command(t_parse *cmd, char **envp)
 		}
 		else if (errno == ENOEXEC)
 		{
-			exit(0);
+			exit(127);
 		}
 	}
 
 
 }
 
-void	execute_builtin_command(t_parse *cmd, t_shell *shell, char **envp)
+void	execute_builtin_command(t_parse *cmd, t_shell *shell)
 {
 	if (!ft_strcmp(cmd->args[0], "echo"))
-		builtin_echo(cmd->args, envp);
+		builtin_echo(cmd->args);
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
 		builtin_pwd();
 	else if (!ft_strcmp(cmd->args[0], "exit"))

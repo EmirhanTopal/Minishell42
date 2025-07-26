@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:18:47 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/23 22:21:35 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/24 23:50:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <errno.h>
+# include <signal.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -77,7 +78,7 @@ void	print_cd_err(char *msg);
 void	update_pwd_vars(char *oldpwd);
 void	cd_go_env(char *var);
 
-void	builtin_echo(char **args, char **envp);
+void	builtin_echo(char **args);
 char	*get_env_value(char **env, char *key);
 void	dolar_sign_echo(char *args, char **envp);
 
@@ -107,7 +108,7 @@ void	unset_key_free(t_env *tmp_env);
 char	*check_path(char **paths, char *cmd);
 char	*find_path(char **env, char **cmd);
 void	execute_not_builtin_command(t_parse *cmd, char **envp);
-void	execute_builtin_command(t_parse *cmd, t_shell *shell, char **envp);
+void	execute_builtin_command(t_parse *cmd, t_shell *shell);
 
 // free
 char	*ft_strjoin_free(char *s1, const char *s2);
@@ -141,6 +142,8 @@ void	pipeline_in_out_app_hrdc(t_parse *tmp);
 
 // signal
 void	get_signal(pid_t pid);
+void	handle_sigint(int sig);
+void	sigquit_handler(int sig);
 
 // util
 long	ft_atoi(char *str);

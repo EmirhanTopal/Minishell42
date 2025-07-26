@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 14:30:03 by emtopal           #+#    #+#             */
-/*   Updated: 2025/07/23 23:52:15 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/25 00:13:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static	void	pipeline_error(void)
 static	void	pipeline_execute(t_parse *tmp, t_shell *shell, char **envp)
 {
 	if (tmp->is_builtin)
-		execute_builtin_command(tmp, shell, envp);
+		execute_builtin_command(tmp, shell);
 	else
 		execute_not_builtin_command(tmp, envp);
 }
@@ -66,6 +66,11 @@ void	execute_pipeline(t_parse *cmd, t_shell *shell, char **envp)
 
 	tmp = cmd;
 	prev_fd = -1;
+	if (cmd && !cmd->next && cmd->is_builtin)
+	{
+		execute_builtin_command(cmd, shell);
+		return;
+	}
 	while (tmp)
 	{
 		if (tmp->next)

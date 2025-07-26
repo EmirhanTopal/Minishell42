@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:54:23 by emtopal           #+#    #+#             */
-/*   Updated: 2025/07/20 17:55:42 by elduran          ###   ########.fr       */
+/*   Updated: 2025/07/25 00:01:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	export_help_2(t_shell *shell, char *arg_key, char *arg_value)
 			if (arg_value != NULL)
 			{
 				free(tmp_head->value);
-				tmp_head->value = arg_value;
+				tmp_head->value = ft_strdup(arg_value);;
 			}
 			return (1);
 		}

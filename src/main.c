@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:38:16 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/21 22:14:27 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/24 22:57:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	shell = malloc(sizeof(t_shell));
 	shell->shell_env = init_env(envp);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, sigquit_handler);
 	while (1)
 	{
 		input = readline("minishell$ ");

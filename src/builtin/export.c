@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elduran <elduran@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:30:58 by elduran           #+#    #+#             */
-/*   Updated: 2025/07/20 17:47:39 by elduran          ###   ########.fr       */
+/*   Updated: 2025/07/25 00:08:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void	builtin_export(t_parse *cmd, t_shell *shell)
 			continue ;
 		}
 		exp_eql_ptr_ctrl(cmd, &key_len, i, &arg_value);
+		printf("%d", key_len);
 		arg_key = ft_strndup(cmd->args[i], key_len);
+		printf("%s", arg_key);
 		export_add_env(shell, arg_value, arg_key);
 		free(arg_key);
 		i++;
