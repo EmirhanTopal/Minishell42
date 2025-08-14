@@ -1,54 +1,57 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 INCLUDES = -Iinclude
 LIBS = -lreadline -lhistory
 
-SRCS = src/main.c \
-		src/builtin/cd.c \
-		src/builtin/echo.c \
-		src/builtin/env.c \
-		src/builtin/exit.c \
-		src/builtin/export.c \
-		src/builtin/pwd.c \
-		src/builtin/unset.c \
-		src/builtin_util/cd_utils_1.c \
-		src/builtin_util/echo_utils_1.c \
-		src/builtin_util/env_utils_1.c \
-		src/builtin_util/export_utils_1.c \
-		src/builtin_util/export_utils_2.c \
-		src/builtin_util/unset_utils_1.c \
-		src/execute/execute_path.c \
-		src/execute/execute.c \
-		src/free/free.c \
-		src/lexer/lexer_1.c \
-		src/lexer/lexer_2.c \
-		src/lexer/lexer_3.c \
-		src/parser/parser_1.c \
-		src/parser/parser_2.c \
-		src/parser/parser_3.c \
-		src/parser/parser_4.c \
-		src/pipeline/pipeline_utils_1.c \
-		src/pipeline/pipeline.c \
-		src/signal/signals_1.c \
-		src/util/ft_atoi.c \
-		src/util/ft_bzero.c \
-		src/util/ft_calloc.c \
-		src/util/ft_isalnum.c \
-		src/util/ft_isalpha.c \
-		src/util/ft_isnumeric.c \
-		src/util/ft_itoa.c \
-		src/util/ft_split.c \
-		src/util/ft_strchr.c \
-		src/util/ft_strcmp.c \
-		src/util/ft_strdup.c \
-		src/util/ft_strjoin.c \
-		src/util/ft_strlen.c \
-		src/util/ft_strncmp.c \
-		src/util/ft_strndup.c \
-		src/util/ft_substr.c
+SRCS = source/main.c \
+		source/main_util.c \
+		source/builtin/cd_1.c \
+		source/builtin/cd_2.c \
+		source/builtin/echo_1.c \
+		source/builtin/env_1.c \
+		source/builtin/exit_1.c \
+		source/builtin/export_1.c \
+		source/builtin/export_2.c \
+		source/builtin/export_3.c \
+		source/builtin/pwd_1.c \
+		source/builtin/unset_1.c \
+		source/execute/execute_1.c \
+		source/execute/execute_2.c \
+		source/execute/execute_3.c \
+		source/execute/execute_4.c \
+		source/execute/execute_5.c \
+		source/expand/expand_1.c \
+		source/expand/expand_2.c \
+		source/free/free_1.c \
+		source/free/free_2.c \
+		source/input/input_1.c \
+		source/lexer/lexer_1.c \
+		source/lexer/lexer_2.c \
+		source/lexer/lexer_3.c \
+		source/parser/parser_1.c \
+		source/parser/parser_2.c \
+		source/parser/parser_3.c \
+		source/parser/parser_4.c \
+		source/signal/signal_1.c \
+		source/util/ft_atoi.c \
+		source/util/ft_bzero.c \
+		source/util/ft_calloc.c \
+		source/util/ft_isalnum.c \
+		source/util/ft_isalpha.c \
+		source/util/ft_isnumeric.c \
+		source/util/ft_itoa.c \
+		source/util/ft_split.c \
+		source/util/ft_strchr.c \
+		source/util/ft_strcmp.c \
+		source/util/ft_strdup.c \
+		source/util/ft_strjoin.c \
+		source/util/ft_strlen.c \
+		source/util/ft_strncmp.c \
+		source/util/ft_strndup.c \
+		source/util/ft_substr.c
 		
 OBJS = $(SRCS:.c=.o)
 
@@ -67,5 +70,16 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+
+leaks: $(NAME) 
+	@valgrind --leak-check=full							\
+			  --suppressions=readline.supp				\
+			  --show-leak-kinds=all 					\
+			  --track-origins=yes						\
+			  --track-fds=yes							\
+			  --verbose									\
+			  ./$(NAME)
+
 
 .PHONY: all clean fclean re
